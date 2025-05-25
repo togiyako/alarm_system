@@ -14,7 +14,7 @@ const char* serverURL = "http://10.10.10.101:5001/notify";
 // === Sensors & Actuators ===
 const int pirPin = 26;
 const int ledPin = 25;
-const int gasSensorPin = 12;
+const int gasSensorPin = 13;
 const int buzzerPin = 33;
 
 // === ChaCha20 Parameters ===

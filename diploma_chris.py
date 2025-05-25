@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from datetime import datetime
 import requests
@@ -8,8 +9,8 @@ from Crypto.Cipher import ChaCha20
 app = Flask(__name__)
 
 # 🔧 Заміни цими даними свої значення
-TELEGRAM_BOT_TOKEN = '8021494403:AAGgznbcZnuxgvhBcMtyOiFmk9w5OLPXwqQ'
-TELEGRAM_CHAT_ID = '962377746'
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_IDS = ['962377746', '622093459']
 
 # Ваш 32‑байтовий ключ (той самий, що й на ESP32)
 KEY = bytes([
@@ -22,12 +23,13 @@ KEY = bytes([
 
 def send_telegram_alert(message: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
-    r = requests.post(url, json=payload)
-    if r.status_code != 200:
-        print("❌ Не вдалося надіслати повідомлення в Telegram:", r.text)
-    else:
-        print("✅ Повідомлення надіслано в Telegram")
+    for chat_id in TELEGRAM_CHAT_IDS:
+        payload = {"chat_id": chat_id, "text": message}
+        r = requests.post(url, json=payload)
+        if r.status_code != 200:
+            print(f"❌ Не вдалося надіслати повідомлення в Telegram (chat_id: {chat_id}):", r.text)
+        else:
+            print(f"✅ Повідомлення надіслано в Telegram (chat_id: {chat_id})")
 
 
 def decrypt_payload(nonce_b64: str, data_b64: str) -> str:
