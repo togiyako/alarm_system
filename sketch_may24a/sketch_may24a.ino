@@ -9,7 +9,7 @@
 // === Wi-Fi & Server ===
 const char* ssid = "707";
 const char* password = "Krupchuk77";
-const char* serverURL = "http://10.10.10.101:5001/notify";
+const char* serverURL = "https://alarm-system.onrender.com/notify";
 
 // === Sensors & Actuators ===
 const int pirPin = 26;
