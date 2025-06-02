@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 import base64
 import json
@@ -59,7 +59,7 @@ def notify():
         print("❌ Помилка дешифрування або парсингу:", e)
         return jsonify({"status": "decryption error"}), 400
 
-    ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    ts = (datetime.now() + timedelta(hours=3)).strftime('%Y-%m-%d %H:%M:%S')
     if data.get('motion'):
         msg = f"🚨 Рух виявлено!\n🕒 {ts}"
     elif data.get('gas'):
